@@ -1,37 +1,49 @@
-## Welcome to GitHub Pages
+import processing.sound.*;
+SoundFile blop;
 
-You can use the [editor on GitHub](https://github.com/G4at/adbt021.github.io/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+int balls = 20;
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+float[] x = new float[balls];
+float[] y = new float[balls];
+float[] xSpeed = new float[balls];
+float[] ySpeed = new float[balls];
+float[] size = new float[balls];
+float[] r = new float[balls];
+float[] g = new float[balls];
+float[] b = new float[balls];
 
-### Markdown
+void setup() {
+ blop = new SoundFile(this, "blop.wav");
+  size(700, 700);
+  for (int i = 0; i < balls; i++) {
+    x[i] = random(width);
+    y[i] = random(height);
+    xSpeed[i] = random(-3, 3);
+    ySpeed[i] = random(-3, 3);
+    size[i] = random(50, 125);
+    r[i] = random(256);
+    g[i] = random(256);
+    b[i] = random(256);
+  }
+}
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+void draw() {
 
-```markdown
-Syntax highlighted code block
+  background(#EDAFAF);
 
-# Header 1
-## Header 2
-### Header 3
+  for (int i = 0; i < balls; i++) {
 
-- Bulleted
-- List
+    x[i] += xSpeed[i];
+    if (x[i] < 0 || x[i] > width) {
+      xSpeed[i] *= -1; blop.play();
+    }
 
-1. Numbered
-2. List
+    y[i] += ySpeed[i];
+    if (y[i] < 0 || y[i] > height) {
+      ySpeed[i] *= -1; blop.play();
+    }
 
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/G4at/adbt021.github.io/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+    fill(r[i], g[i], b[i]);
+    ellipse(x[i], y[i], size[i], size[i]);
+  }
+}
